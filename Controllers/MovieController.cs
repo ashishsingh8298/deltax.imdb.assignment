@@ -88,8 +88,8 @@ namespace deltax.imdb.Controllers
         /// Create movies with their actors and producers
         /// </summary>
         /// <returns></returns>
-        [HttpPut]
-        public ActionResult<int> Put([FromBody] MovieDTO movieModel)
+        [HttpPost]
+        public ActionResult<int> Post([FromBody] MovieDTO movieModel)
         {
             try
             {
@@ -108,8 +108,8 @@ namespace deltax.imdb.Controllers
         /// Edit movies with their actors and producers
         /// </summary>
         /// <returns></returns>
-        [HttpPost]
-        public ActionResult<int> Post([FromBody] MovieDTO movieModel)
+        [HttpPut]
+        public ActionResult<int> Put([FromBody] MovieDTO movieModel)
         {
             try
             {
