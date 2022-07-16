@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace deltax.imdb.Controllers
 {
     [ApiController]
-    [Route("api/[controller]/[action]")]
+    [Route("api/[controller]")]
     public class MovieController : ControllerBase
     {
         private readonly ILogger<MovieController> _logger;
@@ -45,14 +45,41 @@ namespace deltax.imdb.Controllers
                     DateOfRelease = movie.DateOfRelease,
                     Producer = _producerDB.GetProducerByProducerId(movie.ProducerId),
                     Actors = _actorDB.GetActorsForMovie(movie.MovieId).ToList(),
-                    PosterUrl=movie.PosterUrl
+                    PosterUrl = movie.PosterUrl
                 }).ToList();
             }
             catch
             {
                 return NoContent();
             }
-            
+
+        }
+        #endregion
+
+        #region Get Movie with id
+        /// <summary>
+        /// Get the specific Movie with their actors and producers
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("{id}")]
+        public ActionResult<MovieModel> Get(int id)
+        {
+            try
+            {
+                var movie = _movieDB.GetMovie(id);
+
+                if (movie == null)
+                {
+                    return NotFound();
+                }
+
+                return movie;
+            }
+            catch
+            {
+                return NoContent();
+            }
+
         }
         #endregion
 
@@ -62,7 +89,7 @@ namespace deltax.imdb.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPut]
-        public ActionResult<int> Create([FromBody] MovieDTO movieModel)
+        public ActionResult<int> Put([FromBody] MovieDTO movieModel)
         {
             try
             {
@@ -82,7 +109,7 @@ namespace deltax.imdb.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult<int> Edit([FromBody] MovieDTO movieModel)
+        public ActionResult<int> Post([FromBody] MovieDTO movieModel)
         {
             try
             {

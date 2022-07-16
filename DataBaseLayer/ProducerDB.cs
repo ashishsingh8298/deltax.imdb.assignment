@@ -20,15 +20,16 @@ namespace deltax.imdb.DataBaseLayer
         {
             try
             {
-                var producer=_dbContext.Producer.Find(ProducerId);
+                var producer = _dbContext.Producer.Find(ProducerId);
 
                 if (producer == null)
                 {
                     return null;
                 }
 
-                return new ProducerModel() { 
-                    ProducerId=producer.ProducerId,
+                return new ProducerModel()
+                {
+                    ProducerId = producer.ProducerId,
                     ProducerFirstName = producer.ProducerFirstName,
                     ProducerLastName = producer.ProducerLastName,
                     Bio = producer.Bio,
@@ -37,7 +38,7 @@ namespace deltax.imdb.DataBaseLayer
                     Gender = producer.Gender
                 };
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 return null;
             }

@@ -17,11 +17,13 @@ namespace deltax.imdb.DataBaseLayer
             _dbContext = imdbContext;
         }
 
-        public List<MovieModel> GetMovies() {
+        public List<MovieModel> GetMovies()
+        {
             try
             {
-                return _dbContext.Movie.Select(x=>new MovieModel { 
-                    MovieId=x.MovieId,
+                return _dbContext.Movie.Select(x => new MovieModel
+                {
+                    MovieId = x.MovieId,
                     MovieName = x.MovieName,
                     Plot = x.Plot,
                     DateOfRelease = x.DateOfRelease,
@@ -79,7 +81,7 @@ namespace deltax.imdb.DataBaseLayer
 
                 var insertMovie = new Movie
                 {
-                    MovieId= movieParamObj.MovieId,
+                    MovieId = movieParamObj.MovieId,
                     MovieName = movieParamObj.MovieName,
                     Plot = movieParamObj.MovieName,
                     DateOfRelease = movieParamObj.DateOfRelease,
@@ -89,7 +91,7 @@ namespace deltax.imdb.DataBaseLayer
 
                 var mov = _dbContext.Movie.Update(insertMovie);
 
-                var actors=_dbContext.MovieActorsMapping.Where(x=>x.MovieId== Convert.ToInt32(mov.CurrentValues["MovieId"])).Select(x => new MovieActorsMapping
+                var actors = _dbContext.MovieActorsMapping.Where(x => x.MovieId == Convert.ToInt32(mov.CurrentValues["MovieId"])).Select(x => new MovieActorsMapping
                 {
                     MovieActorsId = x.MovieActorsId,
                     ActorId = x.ActorId,
@@ -112,6 +114,33 @@ namespace deltax.imdb.DataBaseLayer
             catch (Exception e)
             {
                 return -1;
+            }
+        }
+
+        public MovieModel GetMovie(int movieId)
+        {
+            try
+            {
+                var movie = _dbContext.Movie.Find(movieId);
+
+                if (movie == null)
+                {
+                    return null;
+                }
+
+                return new MovieModel()
+                {
+                    MovieId = movie.MovieId,
+                    MovieName = movie.MovieName,
+                    Plot = movie.Plot,
+                    DateOfRelease = movie.DateOfRelease,
+                    ProducerId = movie.ProducerId,
+                    PosterUrl = movie.PosterUrl
+                };
+            }
+            catch
+            {
+                return null;
             }
         }
     }
